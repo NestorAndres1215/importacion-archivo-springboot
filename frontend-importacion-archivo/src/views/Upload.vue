@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+
+import { fileService } from '../services/fileService';
 
 export default {
   name: 'UploadView',
@@ -39,7 +40,7 @@ export default {
         const formData = new FormData()
         formData.append('file', this.selectedFile)
 
-        await axios.post('http://localhost:9090/files/upload', formData)
+       await fileService.subir(this.selectedFile)
 
         // Limpiar el input
         this.selectedFile = null

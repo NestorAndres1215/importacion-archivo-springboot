@@ -37,18 +37,18 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import Swal from 'sweetalert2'
+import { fileService } from '../services/fileService'
 
 export default {
   name: 'ListView',
   setup() {
     const files = ref([])
+    const selectedFile = ref(null)
 
     const fetchFiles = async () => {
       try {
-        const res = await axios.get('http://localhost:9090/files/listar')
-        files.value = res.data
+        files.value = await fileService.listar()
       } catch (error) {
         console.error('Error al obtener archivos:', error)
         Swal.fire({
@@ -59,8 +59,41 @@ export default {
       }
     }
 
+    const handleFileUpload = (event) => {
+      selectedFile.value = event.target.files[0]
+    }
+
+    const uploadFile = async () => {
+      if (!selectedFile.value) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Selecciona un archivo',
+          text: 'Por favor elige un archivo antes de subirlo'
+        })
+        return
+      }
+
+      try {
+        await fileService.subir(selectedFile.value)
+        selectedFile.value = null
+        await fetchFiles()
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Archivo subido correctamente'
+        })
+      } catch (error) {
+        console.error('Error al subir archivo:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo subir el archivo'
+        })
+      }
+    }
+
     const handleDownload = (id) => {
-      window.open(`http://localhost:9090/files/download/${id}`, '_blank')
+      fileService.download(id)
     }
 
     const handleDelete = async (id) => {
@@ -77,7 +110,7 @@ export default {
 
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:9090/files/delete/${id}`)
+          await fileService.eliminar(id)
           await fetchFiles()
           Swal.fire({
             icon: 'success',
@@ -97,7 +130,7 @@ export default {
 
     onMounted(fetchFiles)
 
-    return { files, handleDownload, handleDelete }
+    return { files, selectedFile, handleFileUpload, uploadFile, handleDownload, handleDelete }
   }
 }
 </script>
