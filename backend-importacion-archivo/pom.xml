@@ -13,7 +13,7 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>ImportarArchivos</artifactId>
+    <artifactId>backend-importacion-archivo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ImportarArchivos</name>
     <description>Demo project for Spring Boot</description>

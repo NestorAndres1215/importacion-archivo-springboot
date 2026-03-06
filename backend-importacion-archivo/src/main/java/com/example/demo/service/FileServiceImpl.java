@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileModel getFileById(Long id) {
+    public FileModel getFileById(Long id) throws FileNotFoundException {
         return fileRepository.findById(id)
                 .orElseThrow(() -> new FileNotFoundException(MensajesValidacion.ERROR_ARCHIVO_NO_ENCONTRADO + id));
     }
@@ -67,12 +67,13 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @Transactional
-    public void deleteFileById(Long id) throws FileNotFoundException {
+    public boolean deleteFileById(Long id) throws FileNotFoundException {
         if (!fileRepository.existsById(id)) {
             throw new FileNotFoundException(MensajesValidacion.ERROR_ARCHIVO_NO_ENCONTRADO + id);
         }
 
         fileRepository.deleteById(id);
+        return false;
     }
 
 }

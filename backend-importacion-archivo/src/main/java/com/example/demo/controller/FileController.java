@@ -34,7 +34,7 @@ public class FileController {
     }
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
+    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) throws FileNotFoundException {
 
         FileModel file = fileService.getFileById(id);
 

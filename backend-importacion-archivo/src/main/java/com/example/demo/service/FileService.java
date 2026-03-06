@@ -12,7 +12,7 @@ public interface FileService {
 
     FileModel saveFile(MultipartFile file) throws IOException;
 
-    FileModel getFileById(Long id);
+    FileModel getFileById(Long id) throws FileNotFoundException;
 
     List<FileModel> getAllFiles();
 
