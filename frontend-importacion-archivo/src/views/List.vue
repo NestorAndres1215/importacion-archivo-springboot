@@ -1,32 +1,26 @@
 <template>
   <div class="container mt-4">
-    <h2 class="mb-4 text-center text-primary">Listado de Archivos</h2>
-    <div class="table-responsive shadow-sm file-table-container">
+    <h2 class="mb-4 file-title text-center">Listado de Archivos</h2>
+    <div class="table-responsive shadow-sm">
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-primary">
+        <thead class="table-header-custom text-white">
           <tr>
-            <th scope="col">Archivo</th>
+            <th scope="col" class="text-center">Archivo</th>
             <th scope="col" class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="file in files" :key="file.id">
-            <td>
+            <td class="text-center">
               <i class="fas fa-file-alt text-primary me-2"></i>
               {{ file.name }}
             </td>
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
-                <button
-                  class="btn btn-success btn-sm"
-                  @click="handleDownload(file.id)"
-                >
+                <button class="btn btn-success btn-sm" @click="handleDownload(file.id)">
                   <i class="fas fa-download me-1"></i> Descargar
                 </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  @click="handleDelete(file.id)"
-                >
+                <button class="btn btn-danger btn-sm" @click="handleDelete(file.id)">
                   <i class="fas fa-trash me-1"></i> Eliminar
                 </button>
               </div>
@@ -107,3 +101,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.file-title {
+  color: #0b2545;
+  /* Azul marino */
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  align-items: center;
+}
+
+.table-header-custom {
+  background-color: #0b2545;
+  /* Azul marino igual al título */
+}
+</style>
